@@ -5,13 +5,20 @@ var app = new Vue({
         sortKey: '',
         sortOrder: 'asc',
         lessons: [
-            { id: 1, subject: 'Python Programming', location: 'Hendon', price: 120, spaces: 5, icon: 'python.png' },
-            { id: 2, subject: 'Web Design 101', location: 'Barnet', price: 100, spaces: 5, icon: 'web.png' },
-            { id: 3, subject: 'Robotics for Beginners', location: 'Colindale', price: 150, spaces: 5, icon: 'robot.png' },
-            { id: 4, subject: 'Game Development', location: 'Finchley', price: 90, spaces: 5, icon: 'game.png' },
-            { id: 5, subject: 'Intro to AI', location: 'Wembley', price: 130, spaces: 5, icon: 'ai.png' },
-            { id: 6, subject: 'Creative Coding with JS', location: 'Camden', price: 110, spaces: 5, icon: 'js.png' }
+            { id: 1, subject: 'Python Programming', location: 'Flic-en-Flac', price: 120, spaces: 5, icon: 'python-icon.png' },
+            { id: 2, subject: 'Web Design 101', location: 'Bambous', price: 100, spaces: 5, icon: 'web-design.png' },
+            { id: 3, subject: 'Data Science Basics', location: 'Flic-en-Flac', price: 125, spaces: 5, icon: 'ds-icon.png' },
+            { id: 4, subject: 'Robotics for Beginners', location: 'Port Louis', price: 150, spaces: 5, icon: 'robotics-icon.jpg' },
+            { id: 5, subject: 'Game Dev with Scratch', location: 'Tamarin', price: 90, spaces: 5, icon: 'scratch-icon.jpg' },
+            { id: 6, subject: 'Python Programming', location: 'Quatre Bornes', price: 120, spaces: 5, icon: 'python-icon.png' },
+            { id: 7, subject: 'Introduction to AI', location: 'Quatre Bornes', price: 130, spaces: 5, icon: 'ai-icon.png' },
+            { id: 8, subject: 'Creative Coding with JS', location: 'Bambous', price: 110, spaces: 5, icon: 'coding-icon.jpg' },
+            { id: 9, subject: 'Data Science Basics', location: 'Tamarin', price: 95, spaces: 5, icon: 'ds-icon.png' },
+            { id: 10, subject: 'Python Programming', location: 'Port Louis', price: 115, spaces: 5, icon: 'python-icon.png' },
+            { id: 11, subject: 'Web Design 101', location: 'Flic-en-Flac', price: 100, spaces: 5, icon: 'web-design.png' },
+            { id: 12, subject: 'Introduction to AI', location: 'Bambous', price: 100, spaces: 5, icon: 'ai-icon.png' }
         ],
+
         searchText: '',
     },
     computed: {

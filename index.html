@@ -15,9 +15,9 @@
   <div id="app">
 
     <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3 fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 fixed-top">
       <div class="container-fluid">
-        <span class="navbar-brand fw-bold" style="color: var(--blue-light);">SkillSprout</span>
+        <span class="navbar-brand fw-bold" style="color: var(--blue-light);">TechSprout</span>
 
         <button class="btn btn-outline-primary" @click="toggleCart">
           <i class="fa-solid fa-cart-shopping me-2"></i> Cart ({{ cart.length }})
@@ -46,7 +46,7 @@
           <input type="text" class="form-control" v-model="searchText" placeholder="Search courses...">
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-3">
           <div class="input-group w-auto">
             <span class="input-group-text bg-white"><i class="fa fa-sort"></i></span>
             <select v-model="sortKey" class="form-select">
@@ -66,26 +66,36 @@
 
       <!-- courses -->
       <div class="row">
-        <div v-for="lesson in sortedLessons" :key="lesson.id" class="col-md-4 mb-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-              <img :src="'img/' + lesson.icon" alt="icon" width="60" class="mb-3">
-              <h5 class="card-title">{{ lesson.subject }}</h5>
-              <p class="card-text mb-1">📍 {{ lesson.location }}</p>
-              <p class="card-text mb-1">💰 £{{ lesson.price }}</p>
-              <p class="card-text">🧑‍🎓 Spaces: {{ lesson.spaces }}</p>
-              <button class="btn btn-success" @click="addToCart(lesson)" :disabled="lesson.spaces === 0">
-                Add to Cart
-              </button>
+        <div v-for="lesson in sortedLessons" :key="lesson.id" class="col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm p-3 mr-3">
+            <div class="d-flex align-items-center justify-content-between">
+
+              <!-- LEFT: Text details -->
+              <div class="text-start me-3">
+                <h5 class="card-title fw-bold mb-2">{{ lesson.subject }}</h5>
+                <p class="card-text mb-1"><strong>Location:</strong> {{ lesson.location }}</p>
+                <p class="card-text mb-1"><strong>Price:</strong> £{{ lesson.price }}</p>
+                <p class="card-text mb-3"><strong>Spaces Left:</strong> {{ lesson.spaces }}</p>
+                <button class="btn btn-success btn-sm" style="background-color: var(--blue-dark);" @click="addToCart(lesson)" :disabled="lesson.spaces === 0">
+                  Add to Cart
+                </button>
+              </div>
+
+              <!-- RIGHT: Image -->
+              <div class="text-end">
+                <img :src="'./img/' + lesson.icon" alt="icon" width="100" height="100" class="img-fluid rounded">
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
     </section>
 
     <!-- Footer -->
     <footer class="text-center text-muted py-3 mt-4 border-top bg-white">
-      &copy; 2025 SkillSprout | Developed by Ivy Onyinye Obodo
+      &copy; 2025 TechSprout | Developed by Ivy Onyinye Obodo
     </footer>
 
   </div>

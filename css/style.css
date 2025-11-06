@@ -1,17 +1,21 @@
 :root {
   --blue-light: #0d6efd;
-  --blue-dark: #004fb6;
+  /* --blue-dark: #01143c; */
+  --blue-dark: #0145ab;
+  /* --blue-dark: #013684; */
+  /* --blue-dark: #024dbc; */
+  /* --blue-dark: #1F4168; */
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, sans-serif;
-  padding-top: 70px;
+  margin: 0;
 }
 
 /* Hero */
 .hero-section {
   position: relative;
-  height: 60vh;
+  height: 63vh;
   background: url('../img/hero-bg2.png') center/cover no-repeat;
   color: white;
   overflow: hidden;
@@ -33,9 +37,35 @@ body {
 }
 
 
+.card {
+  border: none;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
 .card:hover {
-  transform: translateY(-3px);
-  transition: 0.2s;
+  transform: translateY(-4px);
+}
+
+.card img {
+  object-fit: contain;
+}
+
+/* .card-title {
+  color: var(--blue-dark);
+} */
+
+.btn-success {
+  background-color: var(--blue-dark) !important;
+  border: none;
+  transition: all 0.2s ease;
+  transform: scale(1.05);
+}
+
+.btn-success:hover {
+  background-color: var(--blue-light) !important;
+  transform: scale(1.05);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 footer {
