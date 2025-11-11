@@ -4,6 +4,7 @@ var app = new Vue({
         cart: [],
         sortKey: '',
         sortOrder: 'asc',
+        showCart: false,
         lessons: [
             { id: 1, subject: 'Python Programming', location: 'Flic-en-Flac', price: 120, spaces: 5, icon: 'python-icon.png' },
             { id: 2, subject: 'Web Design 101', location: 'Bambous', price: 100, spaces: 5, icon: 'web-design.png' },
@@ -18,7 +19,6 @@ var app = new Vue({
             { id: 11, subject: 'Web Design 101', location: 'Flic-en-Flac', price: 100, spaces: 5, icon: 'web-design.png' },
             { id: 12, subject: 'Introduction to AI', location: 'Bambous', price: 100, spaces: 5, icon: 'ai-icon.png' }
         ],
-
         searchText: '',
     },
     computed: {
@@ -50,7 +50,14 @@ var app = new Vue({
             }
         },
         toggleCart() {
-            alert('Cart feature will appear on a separate section later this week.');
+            this.showCart = !this.showCart;
         },
+        removeFromCart(index) {
+            alert('Checkout feature coming soon!');
+        },
+
+        goToCheckout() {
+            alert('Checkout feature coming soon!');
+        }
     }
 });
