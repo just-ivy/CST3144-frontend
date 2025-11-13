@@ -23,7 +23,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.59); /* subtle dark overlay */
+  background: rgba(0, 0, 0, 0.59);
+  /* subtle dark overlay */
 }
 
 .hero-content {
@@ -64,12 +65,11 @@ body {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-
-
 /* Slide-in cart panel */
 .cart-panel {
   position: fixed;
-  top: 56px; /* perfectly aligns under navbar */
+  top: 56px;
+  /* perfectly aligns under navbar */
   right: 0;
   width: 360px;
   height: calc(100% - 56px);
@@ -107,4 +107,32 @@ body {
 
 footer {
   font-size: 0.9rem;
+}
+
+
+.cart-item-box {
+  background: #fff;
+  border: 1px solid #cfd8dc;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cart-item-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cart-item-box img {
+  object-fit: contain;
+}
+
+.cart-item-box button {
+  background-color: var(--blue-light);
+  border: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.cart-item-box button:hover {
+  background-color: var(--blue-dark);
 }

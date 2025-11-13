@@ -45,7 +45,14 @@ var app = new Vue({
         },
         addToCart(lesson) {
             if (lesson.spaces > 0) {
-                this.cart.push(lesson);
+                const cartItem = this.cart.find(item => item.id === lesson.id);
+                if (cartItem) {
+                    // Increment quantity if already in cart
+                    cartItem.quantity++;
+                } else {
+                    // Add as new item with quantity = 1
+                    this.cart.push({ ...lesson, quantity: 1 });
+                }
                 lesson.spaces--;
             }
         },

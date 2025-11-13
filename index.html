@@ -105,17 +105,18 @@
       </div>
 
       <div class="cart-body p-3" v-if="cart.length > 0">
-        <div v-for="(lesson, index) in cart" :key="index" class="cart-item mb-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <h6 class="fw-bold mb-1">{{ lesson.subject }}</h6>
-              <p class="mb-0 text-muted small">{{ lesson.location }}</p>
-              <p class="mb-0 small">£{{ lesson.price }}</p>
+        <!-- Cart Card-->
+        <div v-for="(lesson, index) in cart" :key="index" class="cart-item-box mb-3 p-3 text-center border rounded">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="text-start">
+              <p class="mb-1"><strong>Subject:</strong> {{ lesson.subject }}</p>
+              <p class="mb-1"><strong>Location:</strong> {{ lesson.location }}</p>
+              <p class="mb-1"><strong>Price:</strong> £{{ lesson.price }}</p>
+              <p class="mb-0"><strong>Spaces:</strong> {{ lesson.quantity }}</p>
             </div>
-            <button class="btn btn-sm btn-outline-danger" @click="removeFromCart(index)">
-              <i class="fa fa-trash"></i>
-            </button>
+            <img :src="'./img/' + lesson.icon" alt="icon" width="60" height="60" class="img-fluid">
           </div>
+          <button class="btn btn-primary btn-sm w-100" @click="removeFromCart(index)">Remove</button>
         </div>
 
         <div class="border-top pt-3 mt-3">
