@@ -64,7 +64,14 @@ var app = new Vue({
             this.showCart = !this.showCart;
         },
         removeFromCart(index) {
-            alert('Checkout feature coming soon!');
+            const cartItem = this.cart[index];
+            if (cartItem) {
+                const lesson = this.lessons.find(l => l.id === cartItem.id);
+                if (lesson) {
+                    lesson.spaces += cartItem.quantity;
+                }
+                this.cart.splice(index, 1);
+            }
         },
         goToCheckout() {
             alert('Checkout feature coming soon!');
