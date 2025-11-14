@@ -107,5 +107,11 @@ var app = new Vue({
             // Close cart panel
             this.showCart = false;
         },
+        isValidName() {
+            return /^[A-Za-z ]+$/.test(this.checkoutName);
+        },
+        isValidPhone() {
+            return /^[0-9]+$/.test(this.checkoutPhone);
+        },
     }
 });
