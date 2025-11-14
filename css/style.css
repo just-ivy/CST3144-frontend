@@ -19,12 +19,12 @@ body {
 
 .hero-overlay {
   position: absolute;
-  top: 0;
+  inset: 0;
+  /* top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0; */
   background: rgba(0, 0, 0, 0.59);
-  /* subtle dark overlay */
 }
 
 .hero-content {
@@ -33,7 +33,7 @@ body {
   padding: 0 20px;
 }
 
-
+/* Lesson Card */
 .card {
   border: none;
   border-radius: 10px;
@@ -48,10 +48,7 @@ body {
   object-fit: contain;
 }
 
-/* .card-title {
-  color: var(--blue-dark);
-} */
-
+/* Add to Cart btn */
 .btn-success {
   background-color: var(--blue-dark) !important;
   border: none;
@@ -69,7 +66,6 @@ body {
 .cart-panel {
   position: fixed;
   top: 56px;
-  /* perfectly aligns under navbar */
   right: 0;
   width: 360px;
   height: calc(100% - 56px);
@@ -86,7 +82,7 @@ body {
   transform: translateX(0);
 }
 
-/* Overlay now covers whole page correctly */
+/* Overlay (dark background) */
 .cart-overlay {
   position: fixed;
   top: 56px;
@@ -105,11 +101,7 @@ body {
   }
 }
 
-footer {
-  font-size: 0.9rem;
-}
-
-
+/* Cart item */
 .cart-item-box {
   background: #fff;
   border: 1px solid #cfd8dc;
@@ -135,4 +127,26 @@ footer {
 
 .cart-item-box button:hover {
   background-color: var(--blue-dark);
+}
+
+/* Search and sort outline */
+.input-group:focus-within {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+  border-radius: 6px;
+}
+
+.input-group .input-group-text {
+  background: #f8f9fa !important;
+  border-color: #cfd8dc !important;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: #cfd8dc !important;
+}
+
+footer {
+  font-size: 0.9rem;
 }

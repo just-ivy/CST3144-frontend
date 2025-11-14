@@ -19,8 +19,8 @@
       <div class="container-fluid">
         <span class="navbar-brand fw-bold" style="color: var(--blue-light);">TechSprout</span>
 
-        <button class="btn btn-outline-primary" @click="toggleCart">
-          <i class="fa-solid fa-cart-shopping me-2"></i> Cart ({{ cartCount }})
+        <button class="btn btn-outline-primary" @click="toggleCart" :disabled="cart.length === 0">
+          <i class="fa-solid fa-cart-shopping me-2"></i> Cart ({{ totalItems }})
         </button>
       </div>
     </nav>
@@ -30,22 +30,23 @@
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <h1 class="display-5 fw-bold mb-3">Learn Future-Ready Skills</h1>
-        <p class="lead">Empower your creativity through engaging tech and coding courses designed for young learners.
-        </p>
+        <p class="lead">Engaging tech and coding courses designed for young learners.</p>
       </div>
     </section>
 
-    <!-- Courses Container -->
+    <!-- Lessons List -->
     <section class="container my-5" id="courses">
-      <h2 class="text-center mb-2 text-primary">Available Courses</h2>
+      <h2 class="text-center mb-2 text-primary">Available Lessons</h2>
       <p class="text-center text-muted mb-4">Browse from our collection of valuable courses</p>
 
+      <!-- Search -->
       <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div class="input-group w-auto">
           <span class="input-group-text bg-white"><i class="fa fa-search"></i></span>
           <input type="text" class="form-control" v-model="searchText" placeholder="Search courses...">
         </div>
 
+        <!-- SORT -->
         <div class="d-flex gap-3">
           <div class="input-group w-auto">
             <span class="input-group-text bg-white"><i class="fa fa-sort"></i></span>
@@ -63,8 +64,7 @@
         </div>
       </div>
 
-
-      <!-- courses -->
+      <!-- Lesson Cards -->
       <div class="row">
         <div v-for="lesson in sortedLessons" :key="lesson.id" class="col-md-6 col-lg-4 mb-4">
           <div class="card h-100 shadow-sm p-3 mr-3">
@@ -76,6 +76,7 @@
                 <p class="card-text mb-1"><strong>Location:</strong> {{ lesson.location }}</p>
                 <p class="card-text mb-1"><strong>Price:</strong> £{{ lesson.price }}</p>
                 <p class="card-text mb-3"><strong>Spaces Left:</strong> {{ lesson.spaces }}</p>
+
                 <button class="btn btn-success btn-sm" style="background-color: var(--blue-dark);"
                   @click="addToCart(lesson)" :disabled="lesson.spaces === 0">
                   Add to Cart
@@ -104,33 +105,47 @@
         <h5 class="mb-0 text-primary">Your Cart</h5>
       </div>
 
-      <div class="cart-body p-3" v-if="cart.length > 0">
+      <div class="cart-body p-3">
+
         <!-- Cart Card-->
-        <div v-for="(lesson, index) in cart" :key="index" class="cart-item-box mb-3 p-3 text-center border rounded">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <div class="text-start">
-              <p class="mb-1"><strong>Subject:</strong> {{ lesson.subject }}</p>
-              <p class="mb-1"><strong>Location:</strong> {{ lesson.location }}</p>
-              <p class="mb-1"><strong>Price:</strong> £{{ lesson.price }}</p>
-              <p class="mb-0"><strong>Spaces:</strong> {{ lesson.quantity }}</p>
+        <div v-if="cart.length > 0">
+          <div v-for="(lesson, index) in cart" :key="index" class="cart-item-box mb-3 p-3 text-center border rounded">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="text-start">
+                <p class="mb-1"><strong>Subject:</strong> {{ lesson.subject }}</p>
+                <p class="mb-1"><strong>Location:</strong> {{ lesson.location }}</p>
+                <p class="mb-1"><strong>Price:</strong> £{{ lesson.price }}</p>
+                <p class="mb-0"><strong>Spaces:</strong> {{ lesson.quantity }}</p>
+              </div>
+              <img :src="'./img/' + lesson.icon" alt="icon" width="60" height="60" class="img-fluid">
             </div>
-            <img :src="'./img/' + lesson.icon" alt="icon" width="60" height="60" class="img-fluid">
+            <button class="btn btn-primary btn-sm w-100" @click="removeFromCart(index)">Remove</button>
           </div>
-          <button class="btn btn-primary btn-sm w-100" @click="removeFromCart(index)">Remove</button>
-        </div>
 
-        <div class="border-top pt-3 mt-3">
-          <h6>Total: <span class="text-success">£{{ totalPrice }}</span></h6>
-          <button class="btn btn-primary w-100 mt-2" @click="goToCheckout">Proceed to Checkout</button>
-        </div>
-      </div>
+          <div class="border-top pt-3 mt-3">
+            <h6>Total: <span class="text-success">£{{ totalPrice }}</span></h6><br/>
 
-      <div v-else class="p-4 text-center text-muted">
-        <p>Your cart is empty.</p>
+            <!-- CHECKOUT FORM -->
+            <div class="cart-header p-3 border-bottom">
+              <h5 class="mb-0 text-primary">Checkout</h5>
+            </div>
+
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Name</label>
+              <input type="text" class="form-control mb-2" v-model="checkoutName">
+
+              <label class="form-label fw-semibold">Phone</label>
+              <input type="text" class="form-control mb-3" v-model="checkoutPhone">
+
+              <button class="btn btn-primary w-100" @click="submitOrder">
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="cart-overlay" v-show="showCart" @click="toggleCart"></div> <!--Overlay-->
+    <div class="cart-overlay" v-show="showCart"></div> <!--Overlay-->
 
     <script src="js/app.js"></script>
 </body>
