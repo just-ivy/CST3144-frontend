@@ -1,24 +1,12 @@
 var app = new Vue({
     el: '#app',
     data: {
+        backendUrl: "http://localhost:3000",
+        lessons: [],
         cart: [],
         sortKey: '',
         sortOrder: 'asc',
         showCart: false,
-        lessons: [
-            { id: 1, subject: 'Python Programming', location: 'Flic-en-Flac', price: 120, spaces: 5, icon: 'python-icon.png' },
-            { id: 2, subject: 'Web Design 101', location: 'Bambous', price: 100, spaces: 5, icon: 'web-design.png' },
-            { id: 3, subject: 'Data Science Basics', location: 'Flic-en-Flac', price: 125, spaces: 5, icon: 'ds-icon.png' },
-            { id: 4, subject: 'Robotics for Beginners', location: 'Port Louis', price: 150, spaces: 5, icon: 'robotics-icon.jpg' },
-            { id: 5, subject: 'Game Dev with Scratch', location: 'Tamarin', price: 90, spaces: 5, icon: 'scratch-icon.jpg' },
-            { id: 6, subject: 'Python Programming', location: 'Quatre Bornes', price: 120, spaces: 5, icon: 'python-icon.png' },
-            { id: 7, subject: 'Introduction to AI', location: 'Quatre Bornes', price: 130, spaces: 5, icon: 'ai-icon.png' },
-            { id: 8, subject: 'Creative Coding with JS', location: 'Bambous', price: 110, spaces: 5, icon: 'coding-icon.jpg' },
-            { id: 9, subject: 'Data Science Basics', location: 'Tamarin', price: 95, spaces: 5, icon: 'ds-icon.png' },
-            { id: 10, subject: 'Python Programming', location: 'Port Louis', price: 115, spaces: 5, icon: 'python-icon.png' },
-            { id: 11, subject: 'Web Design 101', location: 'Flic-en-Flac', price: 100, spaces: 5, icon: 'web-design.png' },
-            { id: 12, subject: 'Introduction to AI', location: 'Bambous', price: 100, spaces: 5, icon: 'ai-icon.png' }
-        ],
         searchText: '',
 
         checkoutName: "",
@@ -31,8 +19,11 @@ var app = new Vue({
                 const text = this.searchText.toLowerCase();
                 return (
                     l.subject.toLowerCase().includes(text) ||
-                    l.location.toLowerCase().includes(text)
+                    l.location.toLowerCase().includes(text) ||
+                    l.price.toString().includes(text) ||
+                    l.spaces.toString().includes(text)
                 );
+
             });
 
             // Sort
@@ -54,20 +45,27 @@ var app = new Vue({
         totalPrice() {
             return this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         },
-        cartCount() {
-            return this.cart.reduce((total, item) => total + item.quantity, 0);
-        },
         totalItems() {
             return this.cart.reduce((sum, item) => sum + item.quantity, 0);
         },
     },
     methods: {
+        async fetchLessons() {
+            try {
+                const response = await fetch(this.backendUrl + "/lessons");
+                const data = await response.json();
+                this.lessons = data;
+            } catch (err) {
+                console.error("Failed to fetch lessons", err);
+            }
+        },
         toggleSortOrder() {
             this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
         },
         addToCart(lesson) {
             if (lesson.spaces > 0) {
-                const cartItem = this.cart.find(item => item.id === lesson.id);
+                const cartItem = this.cart.find(item => item._id === lesson._id);
+
                 if (cartItem) {
                     cartItem.quantity++;
                 } else {
@@ -83,7 +81,7 @@ var app = new Vue({
             const cartItem = this.cart[index];
 
             if (cartItem) {
-                const lesson = this.lessons.find(l => l.id === cartItem.id);
+                const lesson = this.lessons.find(l => l._id === cartItem._id);
 
                 // Restore one space
                 if (lesson) lesson.spaces++;
@@ -96,22 +94,71 @@ var app = new Vue({
                 }
             }
         },
-        submitOrder() {
-            alert("Order submitted Successful!");
+        async submitOrder() {
+            if (!this.isValidName() || !this.isValidPhone()) return;
 
-            // Reset fields
-            this.checkoutName = "";
-            this.checkoutPhone = "";
-            this.cart = [];
+            try {
+                //Prepare order payload
+                const orderData = {
+                    name: this.checkoutName,
+                    phone: this.checkoutPhone,
+                    items: this.cart.map(item => ({
+                        id: item._id,
+                        quantity: item.quantity
+                    }))
+                };
 
-            // Close cart panel
-            this.showCart = false;
+                // Send ORDER to backend
+                const orderRes = await fetch(this.backendUrl + "/orders", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (!orderRes.ok) {
+                    throw new Error("Order failed");
+                }
+
+                // Update each lesson's spaces in backend
+                for (let item of this.cart) {
+                    await fetch(this.backendUrl + "/lessons/" + item._id, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            spaces: this.lessons.find(l => l._id === item._id).spaces  // new available spaces
+                        })
+                    });
+                }
+
+                alert("Order submitted successfully!");
+
+                // Reset data
+                this.checkoutName = "";
+                this.checkoutPhone = "";
+                this.cart = [];
+                this.showCart = false;
+
+                // Refresh lessons from backend
+                this.fetchLessons();
+
+            } catch (err) {
+                console.error(err);
+                alert("Something went wrong submitting your order.");
+            }
         },
         isValidName() {
             return /^[A-Za-z ]+$/.test(this.checkoutName);
         },
         isValidPhone() {
             return /^[0-9]+$/.test(this.checkoutPhone);
-        },
+        },  
+        goBackToLessons() {
+            this.showCart = false;
+        }
+    },
+    mounted() {
+        this.fetchLessons();
     }
 });
+
+
