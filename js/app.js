@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-        backendUrl: "http://localhost:3000",
+        backendUrl: "https://cst3144-backend-iwqx.onrender.com",
         lessons: [],
         cart: [],
         sortKey: '',
